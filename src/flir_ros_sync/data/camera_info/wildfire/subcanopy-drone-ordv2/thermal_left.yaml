@@ -1,0 +1,31 @@
+# Flir 640
+image_width: 640
+image_height: 512
+camera_name: thermal_left
+
+camera_matrix:
+  rows: 3
+  cols: 3
+  data: [408.4742324130964, 0,                 311.83170583040817,
+         0,                 408.7804097880824, 250.25558975036202,
+         0,                 0,                 1]
+
+distortion_model: radtan
+distortion_coefficients:
+  rows: 1
+  cols: 4
+  data: [-0.3663064274710082, 0.12521997979791644, 0.0019387096190089706, -0.0001237912300240306]
+
+rectification_matrix: # unset, identity for now
+  rows: 3
+  cols: 3
+  data: [1, 0, 0, 
+         0, 1, 0,
+         0, 0, 1]
+
+projection_matrix:
+  rows: 3
+  cols: 4
+  data: [408.4742324130964, 0,                 311.83170583040817, 0,
+         0,                 408.7804097880824, 250.25558975036202, 0,
+         0,                 0,                 1,                  0]

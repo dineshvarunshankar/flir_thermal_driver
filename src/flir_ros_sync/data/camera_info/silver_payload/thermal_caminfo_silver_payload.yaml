@@ -1,0 +1,24 @@
+# Flir 320 on R1
+image_width: 640
+image_height: 512
+camera_name: thermal
+
+camera_matrix: 
+  rows: 3
+  cols: 3
+  data: [404.8959, 0, 315.5815, 0, 403.1187, 262.6288, 0, 0, 1]
+distortion_model: plumb_bob
+distortion_coefficients: 
+  rows: 1
+  cols: 5
+  data: [-0.3278, 0.1451, 0, 0, 0]
+
+rectification_matrix: 
+  rows: 3
+  cols: 3
+  data: [1,0,0,0,1,0,0,0,1]
+
+projection_matrix:
+  rows: 3
+  cols: 4
+  data: [404.8959, 0, 315.5815, 0, 0, 403.1187, 262.6288, 0, 0, 0, 1, 0]

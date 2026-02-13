@@ -1,0 +1,44 @@
+# ROS 2 parameters file for FLIR camera node
+flir_thermal_camera:
+  ros__parameters:
+    # Camera Operation Parameters (raw-only; software AGC)
+    operation:
+      raw: true
+
+      # Frame rate in Hz (1-60)
+      frame_rate: 30
+      
+      # Auto Gain Control (AGC) settings
+      agc:
+        # AGC ROI selection
+        # Options:
+        #   - full:     use full frame (default)
+        #   - center50: centered 50% width/height ROI
+        #   - center30: centered 30% width/height ROI
+        roi: full
+        # Prioritize human visibility with obstacle detail
+        gamma: 0.97              # Slightly lower gamma to lift warm targets without blowing highlights
+        max_gain: 1.38            # Moderate gain to enhance contrast in low-delta-T-scenes without excess noise
+        linear_percent: 20.0     # Balanced stretch; preserves background for obstacle awareness
+        plateau: 7.0            # Modest plateau to avoid aggressive clipping
+        tail_rejection: 1.0      # Mild outlier rejection to reduce hot/cold speckle
+        outlier_cut_balance: 1.0 # Balanced low/high tail handling
+        dde: 1.05                # Moderate edge enhancement to aid human contours and obstacles
+        detail_headroom: 12.0    # Leave room for edges to avoid harshness
+        smoothing_factor: 20000.0 # Preserve fine edges while smoothing noise
+        damping_factor: 85.0     # Moderately responsive AGC for moving subjects and changing backgrounds
+        color_palette: 3         # White Hot for clear human contrast at night
+      
+      # Image processing parameters (used when raw=true - handled by thermal_processor node)
+      processing:
+        rectify: false              # Enable/disable image rectification
+        enhance: true               # Enable/disable contrast enhancement (software path)
+        method: "information_based"  # Information-based method balances foreground (person) and background detail
+
+      # Temperature monitoring
+      temperature:
+        enabled: true           # Enable/disable periodic temperature polling
+        warning_threshold: 70.0  # °C - warn if temperature exceeds this value
+        critical_threshold: 100.0  # °C - shutdown if temperature exceeds this value
+
+    # Unified palette selection: use operation.agc.color_palette (0-9). No top-level 'colormap' parameter.

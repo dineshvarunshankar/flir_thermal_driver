@@ -1,0 +1,41 @@
+flir_thermal_camera:
+  ros__parameters:
+    # Camera Operation Parameters (raw-only; software AGC)
+    operation:
+      raw: true
+
+      # Frame rate in Hz (1-60)
+      frame_rate: 30
+      
+      # Auto Gain Control (AGC) settings tuned for close-range human inspection
+      # Goal: maximize intra-body contrast (subtle temperature gradients on skin/clothing)
+      # Assumptions: subject occupies a large portion of the image; use tighter ROI
+      agc:
+        # Aggressive plateau + DDE for strong midtone contrast on faces (~2 m)
+        tail_rejection: 2.0
+        outlier_cut_balance: 1.0
+        plateau: 8.0
+        linear_percent: 10.0
+        max_gain: 3.0
+        gamma: 0.90
+        damping_factor: 3.0
+        dde: 1.50
+        detail_headroom: 20.0
+        smoothing_factor: 900.0
+
+        # Explicit ROI (center 50%) to bias AGC stats to the subject area
+        roi_enable: true
+        roi_x: 160     # 640 * 0.25
+        roi_y: 128     # 512 * 0.25
+        roi_width: 320
+        roi_height: 256
+
+        # Visualization palette (mono preferred for judging true contrast)
+        # 0: white_hot, 1: black_hot
+        color_palette: 0
+
+      # Image processing parameters (used when raw=true - handled by thermal_processor node)
+      processing:
+        rectify: false
+        enhance: true
+        method: plateau # plateau | information_based

@@ -1,0 +1,15 @@
+# Rules made originally. These create two separate devices, /flir_boson_video
+# and /flir_boson_serial. When multiple cameras are plugged in the last one
+# plugged in will be pointed to by these symlinks.
+SUBSYSTEM=="video4linux", ATTRS{manufacturer}=="FLIR", \
+    ATTRS{product}=="Boson", ATTR{index}=="0", SYMLINK+="flir_boson_video"
+SUBSYSTEM=="tty", ATTRS{manufacturer}=="FLIR", \
+    ATTRS{product}=="Boson", SYMLINK+="flir_boson_serial"
+
+# To handle multiple cameras better, map the cameras to an ID in /dev/ with
+# their serial number. There's already persistent IDs in /dev/v4l/by-id, but
+# this might be easier for humans to read.
+SUBSYSTEM=="video4linux", ATTRS{manufacturer}=="FLIR", \
+    ATTRS{product}=="Boson", ATTR{index}=="0", SYMLINK+="flir_boson_video_$attr{serial}"
+SUBSYSTEM=="tty", ATTRS{manufacturer}=="FLIR", \
+    ATTRS{product}=="Boson", SYMLINK+="flir_boson_serial_$attr{serial}"
